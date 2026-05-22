@@ -58,6 +58,10 @@ const questions = questionBank[subject];
 currentQuestion = questions[Math.floor(Math.random()*questions.length)];
 
 document.getElementById("questionText").textContent = currentQuestion.question;
+document.getElementById("hintBox").textContent = "";
+document.getElementById("feedback").textContent = "";
+document.getElementById("explanationBox").textContent = "";
+document.getElementById("answerInput").value = "";
 
 const optionsContainer = document.getElementById("optionsContainer");
 
