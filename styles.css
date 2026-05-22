@@ -1,178 +1,274 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
 }
 
 body{
-font-family:'Poppins',sans-serif;
 background:
-radial-gradient(circle at top,#0f2d68 0%,#07152f 35%,#020617 100%);
+radial-gradient(circle at top,#15245c 0%,#081129 40%,#03050d 100%);
 color:white;
 min-height:100vh;
 padding:25px;
 overflow-x:hidden;
 }
 
-body::before{
-content:"";
+.particles{
 position:fixed;
-width:400px;
-height:400px;
-background:#00d4ff33;
-filter:blur(120px);
-top:-120px;
-right:-100px;
-z-index:-1;
+inset:0;
+pointer-events:none;
+background-image:
+radial-gradient(rgba(0,255,255,.15) 1px, transparent 1px);
+background-size:40px 40px;
+opacity:.4;
 }
 
-h1{
-font-size:3rem;
-font-weight:800;
-margin-bottom:30px;
-text-shadow:0 0 18px rgba(0,212,255,.35);
-}
-
-h2{
-font-size:2.8rem;
-font-weight:800;
-line-height:1.1;
-margin-bottom:25px;
-}
-
-select{
-width:100%;
-padding:18px;
-margin-bottom:18px;
-border:none;
-border-radius:24px;
-background:rgba(255,255,255,.08);
-color:white;
-font-size:1rem;
-backdrop-filter:blur(12px);
-box-shadow:
-inset 0 0 0 1px rgba(255,255,255,.08),
-0 0 20px rgba(0,212,255,.08);
-}
-
-.study-card,
-.practice-card,
-.stats-card{
-background:rgba(15,23,42,.72);
-backdrop-filter:blur(18px);
-border-radius:34px;
-padding:35px;
-margin-top:28px;
-border:1px solid rgba(255,255,255,.08);
-box-shadow:
-0 0 30px rgba(0,212,255,.08),
-inset 0 0 0 1px rgba(255,255,255,.03);
+.screen{
+display:none;
 position:relative;
-overflow:hidden;
+z-index:2;
 }
 
-.study-card::before,
-.practice-card::before,
-.stats-card::before{
-content:"";
-position:absolute;
-top:0;
-left:0;
-width:7px;
-height:100%;
-background:#00d4ff;
-box-shadow:0 0 18px #00d4ff;
+.active{
+display:block;
 }
 
-.study-card p,
-.practice-card p,
-.stats-card p,
-li{
-font-size:1.08rem;
-line-height:1.9;
-color:rgba(255,255,255,.93);
-letter-spacing:.3px;
+.hero{
+margin-top:40px;
+margin-bottom:50px;
 }
 
-.formula-box{
-background:rgba(255,255,255,.06);
-border-left:6px solid #00d4ff;
-border-radius:28px;
-padding:26px;
-margin:28px 0;
+.hero h1{
+font-size:4rem;
+font-weight:900;
+
+text-shadow:
+0 0 10px #00e5ff,
+0 0 25px #8b5cf6;
+}
+
+.hero p{
+margin-top:15px;
 font-size:1.2rem;
-line-height:1.9;
-box-shadow:
-0 0 20px rgba(0,212,255,.12);
+color:#cbd5e1;
+max-width:700px;
 }
 
-.example-box{
+.menu-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:30px;
+}
+
+.menu-card,
+.glass-card,
+.stat-card{
 background:rgba(255,255,255,.05);
-border-left:6px solid #8b5cf6;
+
+backdrop-filter:blur(18px);
+
+border:1px solid rgba(255,255,255,.12);
+
 border-radius:28px;
-padding:26px;
-margin:28px 0;
+
 box-shadow:
-0 0 18px rgba(139,92,246,.18);
+0 0 20px rgba(0,255,255,.08),
+0 0 45px rgba(139,92,246,.08);
 }
 
-.tips-box{
-margin-top:20px;
+.menu-card{
+padding:35px;
+transition:.3s;
 }
 
-.tips-box li{
-margin-bottom:14px;
-list-style:none;
-position:relative;
-padding-left:34px;
+.menu-card:hover{
+transform:translateY(-6px);
+
+box-shadow:
+0 0 25px rgba(0,255,255,.25),
+0 0 50px rgba(139,92,246,.22);
 }
 
-.tips-box li::before{
-content:"✨";
-position:absolute;
-left:0;
-top:0;
+.icon{
+font-size:3rem;
+margin-bottom:15px;
 }
 
-input{
-width:100%;
-padding:18px;
-border:none;
-border-radius:22px;
-background:rgba(255,255,255,.08);
-color:white;
-font-size:1rem;
-margin-top:18px;
-margin-bottom:20px;
+.menu-card h2{
+font-size:2rem;
+margin-bottom:10px;
+}
+
+.menu-card p{
+color:#cbd5e1;
+line-height:1.7;
+margin-bottom:25px;
 }
 
 button{
 border:none;
-padding:15px 24px;
+padding:14px 24px;
 border-radius:18px;
-background:linear-gradient(135deg,#00d4ff,#2563eb);
-color:white;
-font-weight:700;
 cursor:pointer;
-transition:.25s;
-margin-right:10px;
-margin-top:10px;
+font-size:1rem;
+font-weight:600;
+color:white;
+
+background:
+linear-gradient(135deg,#00d4ff,#8b5cf6);
+
 box-shadow:
-0 0 18px rgba(0,212,255,.3);
+0 0 12px rgba(0,212,255,.45);
+
+transition:.3s;
 }
 
 button:hover{
-transform:translateY(-2px) scale(1.02);
+transform:scale(1.03);
+
 box-shadow:
-0 0 28px rgba(0,212,255,.5);
+0 0 25px rgba(0,212,255,.8);
 }
 
-.stats-card p{
-margin-bottom:18px;
-font-size:1.15rem;
+.topbar{
+margin-bottom:20px;
+}
+
+.back-btn{
+background:rgba(255,255,255,.08);
+}
+
+h1{
+font-size:3rem;
+margin-bottom:25px;
+
+text-shadow:
+0 0 10px #00d4ff;
+}
+
+.glass-card{
+padding:28px;
+margin-bottom:25px;
+}
+
+select,
+input{
+width:100%;
+padding:18px;
+margin-top:15px;
+
+background:rgba(255,255,255,.07);
+
+border:1px solid rgba(255,255,255,.14);
+
+border-radius:18px;
+
+color:white;
+font-size:1rem;
+
+outline:none;
+}
+
+select option{
+background:#081129;
+}
+
+#questionText{
+font-size:2rem;
+line-height:1.5;
+margin-bottom:25px;
+}
+
+.buttons{
+display:flex;
+gap:15px;
+flex-wrap:wrap;
+margin-top:20px;
+}
+
+.option-btn{
+display:block;
+width:100%;
+margin-top:12px;
+background:rgba(255,255,255,.06);
+}
+
+#feedback{
+margin-top:20px;
+font-size:1.2rem;
+font-weight:700;
+}
+
+#hintBox{
+margin-top:15px;
+color:#7dd3fc;
+}
+
+#explanationBox{
+margin-top:20px;
+padding:20px;
+border-radius:18px;
+
+background:rgba(255,255,255,.04);
+
+white-space:pre-wrap;
+line-height:1.7;
+overflow:auto;
+}
+
+.stats-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+}
+
+.stat-card{
+padding:25px;
+}
+
+.stat-card span{
+color:#cbd5e1;
+}
+
+.stat-card h2{
+margin-top:10px;
+font-size:2rem;
+}
+
+#studyContentBox h2{
+font-size:2.5rem;
+margin-bottom:20px;
+}
+
+#studyContentBox p{
+line-height:1.8;
+color:#e2e8f0;
+}
+
+#studyContentBox pre{
+margin-top:20px;
+padding:20px;
+border-radius:18px;
+
+background:rgba(255,255,255,.04);
+
+overflow:auto;
+white-space:pre-wrap;
+line-height:1.7;
+
+border-left:4px solid #00e5ff;
+}
+
+#studyContentBox ul{
+margin-top:20px;
+padding-left:20px;
+}
+
+#studyContentBox li{
+margin-bottom:12px;
+line-height:1.7;
 }
 
 @media(max-width:768px){
@@ -181,19 +277,24 @@ body{
 padding:18px;
 }
 
-h1{
-font-size:2.4rem;
+.hero h1{
+font-size:2.8rem;
 }
 
-h2{
+h1{
 font-size:2.2rem;
 }
 
-.study-card,
-.practice-card,
-.stats-card{
-padding:28px;
-border-radius:28px;
+#questionText{
+font-size:1.5rem;
+}
+
+.buttons{
+flex-direction:column;
+}
+
+button{
+width:100%;
 }
 
 }
