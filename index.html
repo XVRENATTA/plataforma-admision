@@ -1,70 +1,129 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Study App</title>
+<title>Study App Neon</title>
 <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
+<div class="particles"></div>
+
 <div id="homeScreen" class="screen active">
+
+<div class="hero">
 <h1>📚 Study App</h1>
-<div class="menu">
-<button onclick="showPractice()">🎯 Practicar</button>
-<button onclick="showStudy()">📘 Estudiar</button>
+<p>Plataforma interactiva para practicar exámenes de admisión.</p>
 </div>
+
+<div class="menu-grid">
+
+<div class="menu-card">
+<div class="icon">🎯</div>
+<h2>Modo práctica</h2>
+<p>Responde preguntas, gana XP y detecta tus temas débiles.</p>
+<button onclick="showPractice()">Entrar</button>
+</div>
+
+<div class="menu-card">
+<div class="icon">📘</div>
+<h2>Modo estudio</h2>
+<p>Aprende teoría, fórmulas y ejemplos paso a paso.</p>
+<button onclick="showStudy()">Entrar</button>
+</div>
+
+</div>
+
 </div>
 
 <div id="practiceScreen" class="screen">
-<button onclick="goHome()">⬅ Inicio</button>
 
-<h2>Modo práctica</h2>
+<div class="topbar">
+<button class="back-btn" onclick="goHome()">⬅ Inicio</button>
+</div>
+
+<h1>🎯 Modo práctica</h1>
+
+<div class="glass-card">
 
 <select id="subjectSelect"></select>
 
 <select id="difficultySelect">
-<option value="all">Todas</option>
+<option value="all">Todas las dificultades</option>
 <option value="facil">Fácil</option>
 <option value="medio">Medio</option>
 <option value="dificil">Difícil</option>
 </select>
 
-<div id="questionBox">
+</div>
+
+<div id="questionBox" class="glass-card">
+
 <h3 id="questionText"></h3>
 
 <div id="optionsContainer"></div>
 
-<input id="answerInput" placeholder="Tu respuesta">
+<input id="answerInput" placeholder="Escribe tu respuesta">
 
 <div class="buttons">
-<button onclick="checkAnswer()">Responder</button>
-<button onclick="showHint()">Hint</button>
-<button onclick="nextQuestion()">Siguiente</button>
+<button onclick="checkAnswer()">✅ Responder</button>
+<button onclick="showHint()">💡 Hint</button>
+<button onclick="nextQuestion()">➡ Siguiente</button>
 </div>
 
 <p id="feedback"></p>
 <p id="hintBox"></p>
+
 <pre id="explanationBox"></pre>
+
 </div>
 
-<div id="stats">
-<p id="correctCount">Correctas: 0</p>
-<p id="wrongCount">Incorrectas: 0</p>
-<p id="xpDisplay">XP: 0</p>
-<p id="weakTopic">Tema débil: Ninguno</p>
+<div id="stats" class="stats-grid">
+
+<div class="stat-card">
+<span>✅ Correctas</span>
+<h2 id="correctCount">0</h2>
 </div>
+
+<div class="stat-card">
+<span>❌ Incorrectas</span>
+<h2 id="wrongCount">0</h2>
+</div>
+
+<div class="stat-card">
+<span>⚡ XP</span>
+<h2 id="xpDisplay">0</h2>
+</div>
+
+<div class="stat-card">
+<span>🧠 Tema débil</span>
+<h2 id="weakTopic">Ninguno</h2>
+</div>
+
+</div>
+
 </div>
 
 <div id="studyScreen" class="screen">
-<button onclick="goHome()">⬅ Inicio</button>
 
-<h2>📘 Estudiar</h2>
+<div class="topbar">
+<button class="back-btn" onclick="goHome()">⬅ Inicio</button>
+</div>
+
+<h1>📘 Estudiar</h1>
+
+<div class="glass-card">
 
 <select id="studySubject"></select>
 <select id="studyTopic"></select>
 
-<div id="studyContentBox"></div>
+</div>
+
+<div id="studyContentBox" class="glass-card"></div>
+
 </div>
 
 <script src="data.js"></script>
