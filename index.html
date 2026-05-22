@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plataforma Admisión</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="app">
+
+  <h1>📚 Plataforma Admisión</h1>
+
+  <div class="dashboard">
+
+    <div class="xp-card">
+      <h2>🚀 Nivel Estudiante</h2>
+      <p>Practica y mejora cada día</p>
+
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+
+      <div class="stat">
+        ⭐
+        <h3 id="xp">0</h3>
+        <p>XP</p>
+      </div>
+
+      <div class="stat">
+        ✅
+        <h3 id="correct">0</h3>
+        <p>Correctas</p>
+      </div>
+
+      <div class="stat">
+        ❌
+        <h3 id="wrong">0</h3>
+        <p>Incorrectas</p>
+      </div>
+
+      <div class="stat">
+        📊
+        <h3 id="accuracy">0%</h3>
+        <p>Precisión</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="selectors">
+
+    <select id="subjectSelect">
+      <option value="math">🧮 Matemáticas</option>
+      <option value="physics">⚛️ Física</option>
+      <option value="chemistry">🧪 Química</option>
+    </select>
+
+    <select id="difficultySelect">
+      <option value="easy">⭐ Fácil</option>
+      <option value="medium">🔥 Medio</option>
+      <option value="hard">💀 Difícil</option>
+    </select>
+
+  </div>
+
+  <div class="question-card">
+
+    <p class="topic" id="topic"></p>
+
+    <h2 id="question"></h2>
+
+    <input type="text" id="answer" placeholder="Escribe tu respuesta...">
+
+    <div class="buttons">
+      <button onclick="checkAnswer()" class="primary">
+        Revisar
+      </button>
+
+      <button onclick="nextQuestion()" class="secondary">
+        Siguiente
+      </button>
+    </div>
+
+    <div id="result"></div>
+
+  </div>
+
+  <div class="subject-stats">
+
+    <h2>📊 Progreso por materia</h2>
+
+    <div class="subject-line">
+      <span>🧮 Matemáticas</span>
+      <span id="mathStats">0%</span>
+    </div>
+
+    <div class="subject-line">
+      <span>⚛️ Física</span>
+      <span id="physicsStats">0%</span>
+    </div>
+
+    <div class="subject-line">
+      <span>🧪 Química</span>
+      <span id="chemistryStats">0%</span>
+    </div>
+
+  </div>
+
+  <div class="weak-topics">
+
+    <h2>⚠️ Temas débiles</h2>
+
+    <ul id="weakTopics">
+      <li>Aún no hay suficientes datos</li>
+    </ul>
+
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
