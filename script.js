@@ -1,35 +1,66 @@
 
-const studyTopics = {
+function showPractice(){
 
-ley_signos:`
+hideAll();
+
+document.getElementById("practiceScreen")
+.classList.add("active");
+
+}
+
+function showStudy(){
+
+hideAll();
+
+document.getElementById("studyScreen")
+.classList.add("active");
+
+}
+
+function goHome(){
+
+hideAll();
+
+document.getElementById("homeScreen")
+.classList.add("active");
+
+}
+
+function hideAll(){
+
+document.querySelectorAll(".screen")
+.forEach(screen=>{
+screen.classList.remove("active");
+});
+
+}
+
+const studyData = {
+
+math:{
+
+"ley_signos":`
 <h2>➕➖ Ley de signos</h2>
 
 <p>
-La ley de signos se usa en multiplicaciones y divisiones.
+Negativo por negativo = positivo.
 </p>
 
-<ul>
-<li>➕ por ➕ = ➕</li>
-<li>➖ por ➖ = ➕</li>
-<li>➕ por ➖ = ➖</li>
-<li>➖ por ➕ = ➖</li>
-</ul>
+<p>
+Positivo por negativo = negativo.
+</p>
 
 <p>
 Ejemplo:
 (-5)(-2)=10
 </p>
-
-<p>
-Porque negativo por negativo da positivo.
-</p>
 `,
 
-jerarquia:`
+"jerarquia":`
 <h2>📐 Jerarquía de operaciones</h2>
 
 <p>
-El orden correcto es:
+Orden:
 </p>
 
 <ol>
@@ -41,50 +72,15 @@ El orden correcto es:
 
 <p>
 Ejemplo:
-5 + 2 × 3
-</p>
-
-<p>
-Primero multiplicación:
-2 × 3 = 6
-</p>
-
-<p>
-Luego:
-5 + 6 = 11
+5 + 2 × 3 = 11
 </p>
 `,
 
-lineales:`
-<h2>📘 Ecuaciones lineales</h2>
+"segundo_grado":`
+<h2>🧠 Segundo grado</h2>
 
 <p>
-Resolver una ecuación lineal significa encontrar el valor de x.
-</p>
-
-<p>
-Ejemplo:
-x + 7 = 15
-</p>
-
-<p>
-Pasamos el 7 restando:
-</p>
-
-<p>
-x = 15 - 7
-</p>
-
-<p>
-x = 8
-</p>
-`,
-
-segundo_grado:`
-<h2>🧠 Ecuaciones de segundo grado</h2>
-
-<p>
-Estas ecuaciones tienen x².
+Las ecuaciones de segundo grado tienen x².
 </p>
 
 <p>
@@ -93,107 +89,50 @@ x² - 9x + 20 = 0
 </p>
 
 <p>
-Buscamos dos números que:
+Se factoriza:
+(x-4)(x-5)
 </p>
+`
 
-<ul>
-<li>multipliquen 20</li>
-<li>sumen -9</li>
-</ul>
+},
 
-<p>
-Son -4 y -5.
-</p>
+physics:{
 
-<p>
-Entonces:
-(x-4)(x-5)=0
-</p>
-`,
-
-pitagoras:`
-<h2>📏 Teorema de Pitágoras</h2>
-
-<p>
-Se usa para encontrar lados de triángulos rectángulos.
-</p>
-
-<p>
-Fórmula:
-a² + b² = c²
-</p>
-
-<p>
-Ejemplo:
-3² + 4² = 9 + 16 = 25
-</p>
-
-<p>
-Raíz de 25 = 5
-</p>
-`,
-
-mru:`
+"mru":`
 <h2>🚗 MRU</h2>
 
 <p>
-MRU significa Movimiento Rectilíneo Uniforme.
-</p>
-
-<p>
-La velocidad siempre es constante.
+Movimiento rectilíneo uniforme.
 </p>
 
 <p>
 Fórmula:
-v = d/t
-</p>
-
-<p>
-Ejemplo:
-50m en 5s
-</p>
-
-<p>
-50/5 = 10 m/s
+v=d/t
 </p>
 `,
 
-mruv:`
+"mruv":`
 <h2>⚡ MRUV</h2>
 
 <p>
-MRUV significa Movimiento Rectilíneo Uniformemente Variado.
-</p>
-
-<p>
-Aquí sí existe aceleración.
+Movimiento rectilíneo uniformemente variado.
 </p>
 
 <p>
 Fórmula:
 a=(vf-vi)/t
 </p>
-
-<p>
-Ejemplo:
-De 0 a 30m/s en 5s
-</p>
-
-<p>
-30/5 = 6
-</p>
 `,
 
-fuerza:`
+"fuerza":`
 <h2>💪 Fuerza</h2>
 
 <p>
-La fuerza se calcula con:
+F=ma
 </p>
 
 <p>
-F = ma
+F = fuerza
 </p>
 
 <p>
@@ -203,66 +142,96 @@ m = masa
 <p>
 a = aceleración
 </p>
+`
 
-<p>
-Ejemplo:
-m=10
-a=2
-</p>
+},
 
-<p>
-F=20
-</p>
-`,
+chemistry:{
 
-atomos:`
+"atomos":`
 <h2>⚛️ Átomos</h2>
 
 <p>
-Los átomos tienen:
+Protón ➕
 </p>
 
-<ul>
-<li>Protón ➕</li>
-<li>Electrón ➖</li>
-<li>Neutrón ⚪</li>
-</ul>
+<p>
+Electrón ➖
+</p>
 
 <p>
-Los protones y neutrones están en el núcleo.
+Neutrón ⚪
 </p>
 `,
 
-balanceo:`
+"balanceo":`
 <h2>🧪 Balanceo químico</h2>
 
 <p>
-Balancear significa que debe haber la misma cantidad de átomos en ambos lados.
+Debe haber mismos átomos en ambos lados.
 </p>
 
 <p>
-Ejemplo:
-H2 + O2 → H2O
-</p>
-
-<p>
-Balanceado:
 2H2 + O2 → 2H2O
 </p>
+`,
+
+"enlaces":`
+<h2>🔗 Enlaces químicos</h2>
+
+<p>
+El covalente comparte electrones.
+</p>
 `
-};
-
-function showStudyTopic(){
-
-const selected =
-document.getElementById("studyTopicSelect").value;
-
-document.getElementById("studyContent").innerHTML =
-studyTopics[selected];
 
 }
 
-showStudyTopic();
+};
+
+function updateTopics(){
+
+const subject =
+document.getElementById("studySubject").value;
+
+const topicSelect =
+document.getElementById("studyTopic");
+
+topicSelect.innerHTML = "";
+
+Object.keys(studyData[subject])
+.forEach(topic=>{
+
+const option =
+document.createElement("option");
+
+option.value = topic;
+
+option.textContent =
+topic.replaceAll("_"," ");
+
+topicSelect.appendChild(option);
+
+});
+
+showStudyContent();
+
+}
+
+function showStudyContent(){
+
+const subject =
+document.getElementById("studySubject").value;
+
+const topic =
+document.getElementById("studyTopic").value;
+
+document.getElementById("studyContent")
+.innerHTML =
+studyData[subject][topic];
+
+}
+
+updateTopics();
 
 let xp=0;
 let correct=0;
@@ -375,12 +344,16 @@ function nextQuestion(){
 
 selectedOption="";
 
-const subject=document.getElementById("subjectSelect").value;
-const difficulty=document.getElementById("difficultySelect").value;
+const subject=
+document.getElementById("subjectSelect").value;
+
+const difficulty=
+document.getElementById("difficultySelect").value;
 
 const pool=questions[subject][difficulty];
 
-currentQuestion=pool[Math.floor(Math.random()*pool.length)];
+currentQuestion=
+pool[Math.floor(Math.random()*pool.length)];
 
 renderQuestion();
 
@@ -388,15 +361,22 @@ renderQuestion();
 
 function renderQuestion(){
 
-document.getElementById("topic").innerText=currentQuestion.topic;
-document.getElementById("question").innerText=currentQuestion.question;
+document.getElementById("topic").innerText=
+currentQuestion.topic;
+
+document.getElementById("question").innerText=
+currentQuestion.question;
 
 document.getElementById("result").innerHTML="";
 
-const difficulty=document.getElementById("difficultySelect").value;
+const difficulty=
+document.getElementById("difficultySelect").value;
 
-const multiple=document.getElementById("multipleChoice");
-const input=document.getElementById("answer");
+const multiple=
+document.getElementById("multipleChoice");
+
+const input=
+document.getElementById("answer");
 
 multiple.innerHTML="";
 
@@ -409,11 +389,13 @@ currentQuestion.options.forEach(option=>{
 const div=document.createElement("div");
 
 div.className="option";
+
 div.innerText=option;
 
 div.onclick=()=>{
 
-document.querySelectorAll(".option").forEach(el=>{
+document.querySelectorAll(".option")
+.forEach(el=>{
 el.classList.remove("selected");
 });
 
@@ -430,6 +412,7 @@ multiple.appendChild(div);
 }else{
 
 input.style.display="block";
+
 input.value="";
 
 }
@@ -438,21 +421,32 @@ input.value="";
 
 function checkAnswer(){
 
-const difficulty=document.getElementById("difficultySelect").value;
+const difficulty=
+document.getElementById("difficultySelect").value;
 
 let userAnswer="";
 
 if(difficulty==="easy"){
+
 userAnswer=selectedOption;
+
 }else{
-userAnswer=document.getElementById("answer").value.toLowerCase().trim();
+
+userAnswer=
+document.getElementById("answer")
+.value
+.toLowerCase()
+.trim();
+
 }
 
-const correctAnswer=currentQuestion.answer.toLowerCase();
+const correctAnswer=
+currentQuestion.answer.toLowerCase();
 
 if(userAnswer===correctAnswer){
 
 xp+=10;
+
 correct++;
 
 document.getElementById("result").innerHTML=
@@ -464,7 +458,9 @@ wrong++;
 
 document.getElementById("result").innerHTML=
 "<h2 style='color:#ef4444;'>❌ Incorrecto</h2>"+
-"<p><strong>Correcta:</strong> "+currentQuestion.answer+"</p>"+
+"<p><strong>Correcta:</strong> "+
+currentQuestion.answer+
+"</p>"+
 "<p>"+currentQuestion.explanation+"</p>";
 
 }
@@ -476,8 +472,12 @@ updateUI();
 function updateUI(){
 
 document.getElementById("xp").innerText=xp;
+
 document.getElementById("correct").innerText=correct;
+
 document.getElementById("wrong").innerText=wrong;
+
+document.getElementById("weakCount").innerText=wrong;
 
 const total=correct+wrong;
 
@@ -486,13 +486,15 @@ total>0
 ? Math.round((correct/total)*100)
 : 0;
 
-document.getElementById("accuracy").innerText=accuracy+"%";
+document.getElementById("accuracy").innerText=
+accuracy+"%";
 
 const level=Math.floor(xp/100)+1;
 
 document.getElementById("level").innerText=level;
 
-document.getElementById("progressFill").style.width=(xp%100)+"%";
+document.getElementById("progressFill").style.width=
+(xp%100)+"%";
 
 }
 
