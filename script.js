@@ -2,86 +2,233 @@ let xp = 0;
 let correct = 0;
 let wrong = 0;
 
-let stats = {
-math:{correct:0,wrong:0},
-physics:{correct:0,wrong:0},
-chemistry:{correct:0,wrong:0}
-};
-
-const weakTopics = {};
+let currentQuestion;
+let selectedOption = "";
 
 const questions = {
 
 math:{
+
 easy:[
-{topic:"Ley de signos",question:"(-5)(-2)",answer:"10",explanation:"Negativo por negativo = positivo"},
-{topic:"Jerarquía",question:"5 + 2 × 3",answer:"11",explanation:"Primero multiplicación"},
-{topic:"Lineales",question:"x + 7 = 15",answer:"8",explanation:"15 - 7 = 8"}
+
+{
+topic:"Ley de signos",
+question:"¿Cuánto es (-5)(-2)?",
+options:["-10","10","7","-7"],
+answer:"10",
+explanation:"Negativo por negativo = positivo."
+},
+
+{
+topic:"Jerarquía de operaciones",
+question:"¿Cuánto es 5 + 2 × 3?",
+options:["21","11","15","9"],
+answer:"11",
+explanation:"Primero se hace la multiplicación."
+},
+
+{
+topic:"Ecuaciones lineales",
+question:"¿Cuál es el valor de x en x + 7 = 15?",
+options:["6","9","8","7"],
+answer:"8",
+explanation:"15 - 7 = 8."
+}
+
 ],
 
 medium:[
-{topic:"Pitágoras",question:"Hipotenusa de 6 y 8",answer:"10",explanation:"6² + 8² = 100"},
-{topic:"Segundo grado",question:"x² - 7x + 12 = 0",answer:"3 y 4",explanation:"(x-3)(x-4)"}
+
+{
+topic:"Pitágoras",
+question:"Calcula la hipotenusa si los catetos son 6 y 8.",
+answer:"10",
+explanation:"6² + 8² = 100 y raíz de 100 = 10."
+},
+
+{
+topic:"Segundo grado",
+question:"Resuelve x² - 7x + 12 = 0",
+answer:"3 y 4",
+explanation:"(x-3)(x-4)=0"
+}
+
 ],
 
 hard:[
-{topic:"Segundo grado",question:"x² - 9x + 20 = 0",answer:"4 y 5",explanation:"(x-4)(x-5)"}
+
+{
+topic:"Segundo grado",
+question:"Resuelve x² - 9x + 20 = 0",
+answer:"4 y 5",
+explanation:"(x-4)(x-5)=0"
+}
+
 ]
+
 },
 
 physics:{
+
 easy:[
-{topic:"MRU",question:"Velocidad si recorres 50m en 5s",answer:"10",explanation:"v = d / t"}
+
+{
+topic:"MRU",
+question:"¿Cuál es la velocidad si recorres 50 metros en 5 segundos?",
+options:["5","15","10","20"],
+answer:"10",
+explanation:"v = d/t = 50/5."
+},
+
+{
+topic:"Conversiones",
+question:"¿Cuántos metros tiene 1 kilómetro?",
+options:["100","1000","10","500"],
+answer:"1000",
+explanation:"1 km = 1000 m."
+}
+
 ],
 
 medium:[
-{topic:"MRUV",question:"Aceleración de 0 a 30m/s en 5s",answer:"6",explanation:"a = (vf - vi) / t"}
+
+{
+topic:"MRUV",
+question:"Calcula la aceleración si un objeto pasa de 0 m/s a 30 m/s en 5 segundos.",
+answer:"6",
+explanation:"a=(vf-vi)/t"
+}
+
 ],
 
 hard:[
-{topic:"Fuerza",question:"F = ma si m = 10 y a = 2",answer:"20",explanation:"10 × 2 = 20"}
+
+{
+topic:"Fuerza",
+question:"¿Cuánto vale la fuerza si m = 10 y a = 2?",
+answer:"20",
+explanation:"F = ma = 10 × 2."
+}
+
 ]
+
 },
 
 chemistry:{
+
 easy:[
-{topic:"Átomos",question:"Partícula positiva",answer:"proton",explanation:"El protón tiene carga positiva"}
+
+{
+topic:"Átomos",
+question:"¿Cuál es la partícula con carga positiva?",
+options:["Electrón","Neutrón","Fotón","Protón"],
+answer:"protón",
+explanation:"El protón tiene carga positiva."
+},
+
+{
+topic:"Ácidos y bases",
+question:"¿Qué tiene un pH mayor a 7?",
+options:["Ácido","Base","Metal","Gas"],
+answer:"base",
+explanation:"Las bases tienen pH mayor a 7."
+}
+
 ],
 
 medium:[
-{topic:"Balanceo",question:"Balancea H2 + O2 -> H2O",answer:"2h2 + o2 -> 2h2o",explanation:"Debe haber mismos átomos"}
+
+{
+topic:"Balanceo",
+question:"Balancea: H2 + O2 -> H2O",
+answer:"2h2 + o2 -> 2h2o",
+explanation:"Debe haber mismos átomos en ambos lados."
+}
+
 ],
 
 hard:[
-{topic:"Modelos atómicos",question:"¿Quién propuso niveles de energía?",answer:"bohr",explanation:"Modelo de Bohr"}
+
+{
+topic:"Modelo atómico",
+question:"¿Quién propuso los niveles de energía?",
+answer:"bohr",
+explanation:"Fue propuesto por Niels Bohr."
+}
+
 ]
+
 }
 
 };
 
-let currentQuestion;
-
 function nextQuestion(){
+
+selectedOption = "";
 
 const subject = document.getElementById("subjectSelect").value;
 const difficulty = document.getElementById("difficultySelect").value;
 
 const pool = questions[subject][difficulty];
 
-currentQuestion = pool[Math.floor(Math.random()*pool.length)];
+currentQuestion = pool[Math.floor(Math.random() * pool.length)];
 
 document.getElementById("topic").innerText = currentQuestion.topic;
 document.getElementById("question").innerText = currentQuestion.question;
-document.getElementById("answer").value = "";
 document.getElementById("result").innerHTML = "";
+
+const answerInput = document.getElementById("answer");
+const multipleChoice = document.getElementById("multipleChoice");
+
+multipleChoice.innerHTML = "";
+
+if(difficulty === "easy"){
+
+answerInput.style.display = "none";
+
+currentQuestion.options.forEach(option=>{
+
+const div = document.createElement("div");
+
+div.className = "option";
+
+div.innerText = option;
+
+div.onclick = ()=>{
+
+document.querySelectorAll(".option").forEach(el=>{
+el.classList.remove("selected");
+});
+
+div.classList.add("selected");
+
+selectedOption = option.toLowerCase();
+};
+
+multipleChoice.appendChild(div);
+
+});
+
+}else{
+
+answerInput.style.display = "block";
+answerInput.value = "";
+
+}
 
 }
 
 function checkAnswer(){
 
-const subject = document.getElementById("subjectSelect").value;
+const difficulty = document.getElementById("difficultySelect").value;
 
-const userAnswer = document.getElementById("answer").value.toLowerCase().trim();
+let userAnswer = "";
+
+if(difficulty === "easy"){
+userAnswer = selectedOption;
+}else{
+userAnswer = document.getElementById("answer").value.toLowerCase().trim();
+}
 
 const correctAnswer = currentQuestion.answer.toLowerCase();
 
@@ -91,24 +238,19 @@ if(userAnswer === correctAnswer){
 
 xp += 10;
 correct++;
-stats[subject].correct++;
 
 result.innerHTML = `
-<h2 style="color:#22d3ee;">✅ ¡Correcto!</h2>
-<p>⭐ +10 XP</p>
+<h2 style="color:#22d3ee;">✅ Correcto</h2>
+<p>${currentQuestion.explanation}</p>
 `;
 
 }else{
 
 wrong++;
-stats[subject].wrong++;
-
-weakTopics[currentQuestion.topic] =
-(weakTopics[currentQuestion.topic] || 0) + 1;
 
 result.innerHTML = `
 <h2 style="color:#ec4899;">❌ Incorrecto</h2>
-<p><strong>Explicación:</strong></p>
+<p><strong>Respuesta correcta:</strong> ${currentQuestion.answer}</p>
 <p>${currentQuestion.explanation}</p>
 `;
 
@@ -131,66 +273,6 @@ const accuracy = total > 0
 : 0;
 
 document.getElementById("accuracy").innerText = accuracy + "%";
-
-updateSubjectStats();
-updateWeakTopics();
-
-}
-
-function updateSubjectStats(){
-
-updateOne("math","mathStats");
-updateOne("physics","physicsStats");
-updateOne("chemistry","chemistryStats");
-
-}
-
-function updateOne(subject,id){
-
-const c = stats[subject].correct;
-const w = stats[subject].wrong;
-
-const total = c + w;
-
-let accuracy = 0;
-
-if(total > 0){
-accuracy = Math.round((c / total) * 100);
-}
-
-document.getElementById(id).innerText = accuracy + "%";
-
-}
-
-function updateWeakTopics(){
-
-const weakList = document.getElementById("weakTopics");
-
-weakList.innerHTML = "";
-
-const sortedTopics =
-Object.entries(weakTopics)
-.sort((a,b)=>b[1]-a[1]);
-
-if(sortedTopics.length === 0){
-
-weakList.innerHTML =
-"<li>Aún no hay suficientes datos</li>";
-
-return;
-
-}
-
-sortedTopics.slice(0,5).forEach(topic=>{
-
-const li = document.createElement("li");
-
-li.textContent =
-topic[0] + " (" + topic[1] + " errores)";
-
-weakList.appendChild(li);
-
-});
 
 }
 
