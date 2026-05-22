@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,8 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Plataforma Admisión</title>
 <link rel="stylesheet" href="style.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -16,13 +15,17 @@
 
 <div class="dashboard">
 
-<div class="stats-grid">
+<div class="level-box">
+<h2>🚀 Nivel <span id="level">1</span></h2>
 
-<div class="stat">
-⭐
-<h3 id="xp">0</h3>
-<p>XP</p>
+<div class="progress-bar">
+<div class="progress-fill" id="progressFill"></div>
 </div>
+
+<p><span id="xp">0</span> XP</p>
+</div>
+
+<div class="stats-grid">
 
 <div class="stat">
 ✅
@@ -40,6 +43,12 @@
 📊
 <h3 id="accuracy">0%</h3>
 <p>Precisión</p>
+</div>
+
+<div class="stat">
+🔥
+<h3 id="weakCount">0</h3>
+<p>Errores</p>
 </div>
 
 </div>
@@ -75,10 +84,21 @@
 <div class="buttons">
 <button onclick="checkAnswer()" class="primary">Revisar</button>
 <button onclick="nextQuestion()" class="secondary">Siguiente</button>
+<button onclick="practiceWeakTopics()" class="danger">🔥 Practicar errores</button>
 </div>
 
 <div id="result"></div>
 
+</div>
+
+<div class="history-box">
+<h2>❌ Historial de errores</h2>
+<div id="history"></div>
+</div>
+
+<div class="weak-box">
+<h2>⚠️ Temas más difíciles</h2>
+<ul id="weakTopics"></ul>
 </div>
 
 </div>
