@@ -1,162 +1,75 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plataforma Admisión</title>
-<link rel="stylesheet" href="style.css">
+<title>Study App</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<div class="app">
-
 <div id="homeScreen" class="screen active">
-
-<h1>📚 Plataforma Admisión</h1>
-
-<div class="menu-buttons">
-
-<button class="main-btn" onclick="showPractice()">
-🎯 Practicar
-</button>
-
-<button class="main-btn" onclick="showStudy()">
-📖 Estudiar
-</button>
-
+<h1>📚 Study App</h1>
+<div class="menu">
+<button onclick="showPractice()">🎯 Practicar</button>
+<button onclick="showStudy()">📘 Estudiar</button>
 </div>
-
 </div>
 
 <div id="practiceScreen" class="screen">
+<button onclick="goHome()">⬅ Inicio</button>
 
-<button class="back-btn" onclick="goHome()">
-⬅ Volver
-</button>
+<h2>Modo práctica</h2>
 
-<h1>🎯 Modo Práctica</h1>
-
-<div class="dashboard">
-
-<div class="level-box">
-
-<h2>🚀 Nivel <span id="level">1</span></h2>
-
-<div class="progress-bar">
-<div class="progress-fill" id="progressFill"></div>
-</div>
-
-<p><span id="xp">0</span> XP</p>
-
-</div>
-
-<div class="stats-grid">
-
-<div class="stat">
-✅
-<h3 id="correct">0</h3>
-<p>Correctas</p>
-</div>
-
-<div class="stat">
-❌
-<h3 id="wrong">0</h3>
-<p>Incorrectas</p>
-</div>
-
-<div class="stat">
-📊
-<h3 id="accuracy">0%</h3>
-<p>Precisión</p>
-</div>
-
-<div class="stat">
-🔥
-<h3 id="weakCount">0</h3>
-<p>Errores</p>
-</div>
-
-</div>
-
-</div>
-
-<div class="selectors">
-
-<select id="subjectSelect">
-<option value="math">🧮 Matemáticas</option>
-<option value="physics">⚛️ Física</option>
-<option value="chemistry">🧪 Química</option>
-</select>
+<select id="subjectSelect"></select>
 
 <select id="difficultySelect">
-<option value="easy">⭐ Fácil</option>
-<option value="medium">🔥 Medio</option>
-<option value="hard">💀 Difícil</option>
+<option value="all">Todas</option>
+<option value="facil">Fácil</option>
+<option value="medio">Medio</option>
+<option value="dificil">Difícil</option>
 </select>
 
-</div>
+<div id="questionBox">
+<h3 id="questionText"></h3>
 
-<div class="question-card">
+<div id="optionsContainer"></div>
 
-<p class="topic" id="topic"></p>
-
-<h2 id="question"></h2>
-
-<div id="multipleChoice"></div>
-
-<input type="text" id="answer" placeholder="Escribe tu respuesta...">
+<input id="answerInput" placeholder="Tu respuesta">
 
 <div class="buttons">
-
-<button onclick="checkAnswer()" class="primary">
-Revisar
-</button>
-
-<button onclick="nextQuestion()" class="secondary">
-Siguiente
-</button>
-
+<button onclick="checkAnswer()">Responder</button>
+<button onclick="showHint()">Hint</button>
+<button onclick="nextQuestion()">Siguiente</button>
 </div>
 
-<div id="result"></div>
-
+<p id="feedback"></p>
+<p id="hintBox"></p>
+<pre id="explanationBox"></pre>
 </div>
 
+<div id="stats">
+<p id="correctCount">Correctas: 0</p>
+<p id="wrongCount">Incorrectas: 0</p>
+<p id="xpDisplay">XP: 0</p>
+<p id="weakTopic">Tema débil: Ninguno</p>
+</div>
 </div>
 
 <div id="studyScreen" class="screen">
+<button onclick="goHome()">⬅ Inicio</button>
 
-<button class="back-btn" onclick="goHome()">
-⬅ Volver
-</button>
+<h2>📘 Estudiar</h2>
 
-<h1>📖 Zona de Estudio</h1>
+<select id="studySubject"></select>
+<select id="studyTopic"></select>
 
-<div class="study-panel">
-
-<select id="studySubject" onchange="updateTopics()">
-
-<option value="math">🧮 Matemáticas</option>
-
-<option value="physics">⚛️ Física</option>
-
-<option value="chemistry">🧪 Química</option>
-
-</select>
-
-<select id="studyTopic" onchange="showStudyContent()">
-</select>
-
-<div class="study-content" id="studyContent"></div>
-
+<div id="studyContentBox"></div>
 </div>
 
-</div>
-
-</div>
-
-<script src="script.js"></script>
+<script src="data.js"></script>
+<script src="study.js"></script>
+<script src="app.js"></script>
 
 </body>
 </html>
