@@ -11,15 +11,25 @@ padding:20px;
 
 .app{
 width:100%;
-max-width:700px;
+max-width:900px;
 }
 
-.dashboard,.question-card,.history-box,.weak-box{
+.study-section,
+.dashboard,
+.question-card{
 background:#0f172a;
 padding:20px;
 border-radius:20px;
 margin-top:20px;
 border:1px solid #8b5cf6;
+}
+
+.study-content{
+margin-top:20px;
+background:#111827;
+padding:20px;
+border-radius:15px;
+line-height:1.8;
 }
 
 .level-box{
@@ -40,6 +50,7 @@ overflow:hidden;
 width:0%;
 height:100%;
 background:#22d3ee;
+transition:0.3s;
 }
 
 .stats-grid{
@@ -71,6 +82,7 @@ background:#111827;
 color:white;
 width:100%;
 box-sizing:border-box;
+margin-top:10px;
 }
 
 .option{
@@ -117,9 +129,8 @@ background:#ef4444;
 color:white;
 }
 
-.history-item{
-background:#111827;
-padding:15px;
-border-radius:15px;
-margin-top:10px;
+@media(max-width:700px){
+.buttons,.selectors{
+flex-direction:column;
+}
 }

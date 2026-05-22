@@ -13,9 +13,31 @@
 
 <h1>📚 Plataforma Admisión</h1>
 
+<div class="study-section">
+
+<h2>📖 Zona de Estudio</h2>
+
+<select id="studyTopicSelect" onchange="showStudyTopic()">
+<option value="ley_signos">Ley de signos</option>
+<option value="jerarquia">Jerarquía de operaciones</option>
+<option value="lineales">Ecuaciones lineales</option>
+<option value="segundo_grado">Segundo grado</option>
+<option value="pitagoras">Teorema de Pitágoras</option>
+<option value="mru">MRU</option>
+<option value="mruv">MRUV</option>
+<option value="fuerza">Fuerza</option>
+<option value="atomos">Átomos</option>
+<option value="balanceo">Balanceo químico</option>
+</select>
+
+<div id="studyContent" class="study-content"></div>
+
+</div>
+
 <div class="dashboard">
 
 <div class="level-box">
+
 <h2>🚀 Nivel <span id="level">1</span></h2>
 
 <div class="progress-bar">
@@ -23,6 +45,7 @@
 </div>
 
 <p><span id="xp">0</span> XP</p>
+
 </div>
 
 <div class="stats-grid">
@@ -82,23 +105,23 @@
 <input type="text" id="answer" placeholder="Escribe tu respuesta...">
 
 <div class="buttons">
-<button onclick="checkAnswer()" class="primary">Revisar</button>
-<button onclick="nextQuestion()" class="secondary">Siguiente</button>
-<button onclick="practiceWeakTopics()" class="danger">🔥 Practicar errores</button>
+
+<button onclick="checkAnswer()" class="primary">
+Revisar
+</button>
+
+<button onclick="nextQuestion()" class="secondary">
+Siguiente
+</button>
+
+<button onclick="practiceWeakTopics()" class="danger">
+🔥 Practicar errores
+</button>
+
 </div>
 
 <div id="result"></div>
 
-</div>
-
-<div class="history-box">
-<h2>❌ Historial de errores</h2>
-<div id="history"></div>
-</div>
-
-<div class="weak-box">
-<h2>⚠️ Temas más difíciles</h2>
-<ul id="weakTopics"></ul>
 </div>
 
 </div>
