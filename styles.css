@@ -399,3 +399,54 @@ box-shadow:
 0 0 35px rgba(139,92,246,.25);
 
 }
+
+
+.admin-wrapper{
+
+display:flex;
+justify-content:center;
+
+margin-top:20px;
+
+}
+
+.admin-card{
+
+width:220px;
+
+padding:14px 20px;
+
+text-align:center;
+
+font-size:1rem;
+font-weight:800;
+
+background:
+linear-gradient(
+135deg,
+rgba(0,212,255,.15),
+rgba(139,92,246,.15)
+);
+
+border:1px solid rgba(0,229,255,.35);
+
+border-radius:18px;
+
+cursor:pointer;
+
+transition:.3s;
+
+box-shadow:
+0 0 10px rgba(0,229,255,.15);
+
+}
+
+.admin-card:hover{
+
+transform:translateY(-3px);
+
+box-shadow:
+0 0 20px rgba(0,229,255,.45),
+0 0 35px rgba(139,92,246,.25);
+
+}
