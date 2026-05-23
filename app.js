@@ -124,6 +124,12 @@ stats.weakTopics[topic]++;
 
 document.getElementById("explanationBox").textContent = currentQuestion.explanation;
 
+saveHistory(
+currentQuestion,
+document.getElementById("answerInput").value,
+correct
+);
+
 updateStats();
 
 }
@@ -211,3 +217,83 @@ document.getElementById("studySubject").addEventListener("change", loadStudyTopi
 document.getElementById("studyTopic").addEventListener("change", renderStudy);
 
 init();
+
+const ADMIN_PASSWORD = "EAGLES";
+
+function openAdmin(){
+
+const password = prompt("🔒 Contraseña Admin");
+
+if(password !== ADMIN_PASSWORD){
+
+alert("❌ Contraseña incorrecta");
+return;
+
+}
+
+hideAll();
+document.getElementById("adminScreen").classList.add("active");
+
+renderHistory();
+
+}
+
+function saveHistory(question,userAnswer,isCorrect){
+
+const history =
+JSON.parse(localStorage.getItem("studyHistory")) || [];
+
+history.push({
+
+question:question.question,
+subject:question.subject,
+topic:question.topic,
+answer:userAnswer,
+correct:isCorrect,
+time:new Date().toLocaleString()
+
+});
+
+localStorage.setItem(
+"studyHistory",
+JSON.stringify(history)
+);
+
+}
+
+function renderHistory(){
+
+const container =
+document.getElementById("historyContainer");
+
+const history =
+JSON.parse(localStorage.getItem("studyHistory")) || [];
+
+if(history.length === 0){
+
+container.innerHTML =
+"<p>No hay historial todavía.</p>";
+
+return;
+
+}
+
+container.innerHTML = history.reverse().map(item => `
+
+<div class="glass-card">
+
+<h3>${item.correct ? "✅" : "❌"} ${item.subject.toUpperCase()}</h3>
+
+<p><strong>Tema:</strong> ${item.topic}</p>
+
+<p><strong>Pregunta:</strong> ${item.question}</p>
+
+<p><strong>Respuesta:</strong> ${item.answer}</p>
+
+<p><strong>Fecha:</strong> ${item.time}</p>
+
+</div>
+
+`).join("");
+
+}
