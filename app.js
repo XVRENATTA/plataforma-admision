@@ -1,299 +1,110 @@
-let currentQuestion;
 
-let stats = JSON.parse(localStorage.getItem("stats")) || {
-correct:0,
-wrong:0,
-xp:0,
-weakTopics:{}
+// ===============================
+// HISTORIAL PERSISTENTE LOCAL
+// ===============================
+
+let studyHistory =
+JSON.parse(localStorage.getItem("studyHistory")) || [];
+
+// ===============================
+// GUARDAR RESPUESTA
+// ===============================
+
+function saveAnswer(question, userAnswer, correctAnswer, isCorrect){
+
+const item = {
+
+question,
+userAnswer,
+correctAnswer,
+isCorrect,
+date: new Date().toLocaleString()
+
 };
 
-function init(){
-const subjectSelect = document.getElementById("subjectSelect");
-const studySubject = document.getElementById("studySubject");
+studyHistory.push(item);
 
-Object.keys(questionBank).forEach(subject=>{
-
-const option1 = document.createElement("option");
-option1.value = subject;
-option1.textContent = subject;
-subjectSelect.appendChild(option1);
-
-const option2 = document.createElement("option");
-option2.value = subject;
-option2.textContent = subject;
-studySubject.appendChild(option2);
-
-});
-
-loadQuestions();
-loadStudyTopics();
-updateStats();
-}
-
-function hideAll(){
-document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
-}
-
-function showPractice(){
-hideAll();
-document.getElementById("practiceScreen").classList.add("active");
-}
-
-function showStudy(){
-hideAll();
-document.getElementById("studyScreen").classList.add("active");
-}
-
-function goHome(){
-hideAll();
-document.getElementById("homeScreen").classList.add("active");
-}
-
-function loadQuestions(){
-
-const subject = document.getElementById("subjectSelect").value || "matematicas";
-
-const questions = questionBank[subject];
-
-currentQuestion = questions[Math.floor(Math.random()*questions.length)];
-
-document.getElementById("questionText").textContent = currentQuestion.question;
-document.getElementById("hintBox").textContent = "";
-document.getElementById("feedback").textContent = "";
-document.getElementById("explanationBox").textContent = "";
-document.getElementById("answerInput").value = "";
-
-const optionsContainer = document.getElementById("optionsContainer");
-
-optionsContainer.innerHTML = "";
-
-if(currentQuestion.options){
-
-currentQuestion.options.forEach(option=>{
-
-const btn = document.createElement("button");
-
-btn.className = "option-btn";
-
-btn.textContent = option;
-
-btn.onclick = ()=>{
-document.getElementById("answerInput").value = option;
-};
-
-optionsContainer.appendChild(btn);
-
-});
-
-}
-
-}
-
-function normalize(text){
-return text.toLowerCase().trim();
-}
-
-function checkAnswer(){
-
-const input = normalize(document.getElementById("answerInput").value);
-
-const correct = currentQuestion.answers.some(a=>normalize(a)===input);
-
-if(correct){
-
-document.getElementById("feedback").textContent = "✅ Correcto";
-
-stats.correct++;
-stats.xp += 20;
-
-}else{
-
-document.getElementById("feedback").textContent = "❌ Incorrecto";
-
-stats.wrong++;
-
-const topic = currentQuestion.topic;
-
-if(!stats.weakTopics[topic]){
-stats.weakTopics[topic] = 0;
-}
-
-stats.weakTopics[topic]++;
-
-}
-
-document.getElementById("explanationBox").textContent = currentQuestion.explanation;
-
-saveHistory(
-currentQuestion,
-document.getElementById("answerInput").value,
-correct
+// GUARDAR EN LOCALSTORAGE
+localStorage.setItem(
+"studyHistory",
+JSON.stringify(studyHistory)
 );
 
-updateStats();
-
 }
 
-function showHint(){
-document.getElementById("hintBox").textContent = currentQuestion.hint;
-}
+// ===============================
+// MOSTRAR HISTORIAL
+// ===============================
 
-function nextQuestion(){
-loadQuestions();
-}
+function renderHistory(){
 
-function updateStats(){
+const historyContainer =
+document.getElementById("history-list");
 
-localStorage.setItem("stats", JSON.stringify(stats));
+if(!historyContainer) return;
 
-document.getElementById("correctCount").textContent =
-"Correctas: " + stats.correct;
+historyContainer.innerHTML = "";
 
-document.getElementById("wrongCount").textContent =
-"Incorrectas: " + stats.wrong;
+studyHistory.forEach((item, index) => {
 
-document.getElementById("xpDisplay").textContent =
-"XP: " + stats.xp;
+const div = document.createElement("div");
 
-const weak = Object.entries(stats.weakTopics).sort((a,b)=>b[1]-a[1])[0];
+div.className = "history-item";
 
-if(weak){
+div.innerHTML = `
+<h3>📝 Pregunta ${index + 1}</h3>
 
-document.getElementById("weakTopic").textContent =
-"Tema débil: " + weak[0];
+<p><strong>Pregunta:</strong>
+${item.question}</p>
 
-}
+<p><strong>Respuesta:</strong>
+${item.userAnswer}</p>
 
-}
+<p><strong>Correcta:</strong>
+${item.correctAnswer}</p>
 
-function loadStudyTopics(){
+<p><strong>Resultado:</strong>
+${item.isCorrect ? "✅ Correcta" : "❌ Incorrecta"}</p>
 
-const subject = document.getElementById("studySubject").value || "matematicas";
+<p><strong>Fecha:</strong>
+${item.date}</p>
 
-const topics = Object.keys(studyContent[subject]);
+<hr>
+`;
 
-const topicSelect = document.getElementById("studyTopic");
-
-topicSelect.innerHTML = "";
-
-topics.forEach(topic=>{
-
-const option = document.createElement("option");
-
-option.value = topic;
-
-option.textContent = topic;
-
-topicSelect.appendChild(option);
+historyContainer.appendChild(div);
 
 });
 
-renderStudy();
-
 }
 
-function renderStudy(){
+// ===============================
+// BORRAR HISTORIAL
+// ===============================
 
-const subject = document.getElementById("studySubject").value;
+function clearHistory(){
 
-const topic = document.getElementById("studyTopic").value;
+localStorage.removeItem("studyHistory");
 
-const data = studyContent[subject][topic];
-
-document.getElementById("studyContentBox").innerHTML = `
-<h2>${data.title}</h2>
-<p>${data.theory}</p>
-<pre>${data.formula}</pre>
-<pre>${data.example}</pre>
-<ul>
-${data.tips.map(t=>`<li>${t}</li>`).join("")}
-</ul>
-`;
-
-}
-
-document.getElementById("subjectSelect").addEventListener("change", loadQuestions);
-document.getElementById("studySubject").addEventListener("change", loadStudyTopics);
-document.getElementById("studyTopic").addEventListener("change", renderStudy);
-
-init();
-
-const ADMIN_PASSWORD = "EAGLES";
-
-function openAdmin(){
-
-const password = prompt("🔒 Contraseña Admin");
-
-if(password !== ADMIN_PASSWORD){
-
-alert("❌ Contraseña incorrecta");
-return;
-
-}
-
-hideAll();
-document.getElementById("adminScreen").classList.add("active");
+studyHistory = [];
 
 renderHistory();
 
 }
 
-function saveHistory(question,userAnswer,isCorrect){
+// ===============================
+// EJEMPLO DE USO
+// ===============================
 
-const history =
-JSON.parse(localStorage.getItem("studyHistory")) || [];
+// saveAnswer(
+// "¿Cuánto es 2+2?",
+// "4",
+// "4",
+// true
+// );
 
-history.push({
+document.addEventListener("DOMContentLoaded", () => {
 
-question:question.question,
-subject:question.subject,
-topic:question.topic,
-answer:userAnswer,
-correct:isCorrect,
-time:new Date().toLocaleString()
+renderHistory();
 
 });
-
-localStorage.setItem(
-"studyHistory",
-JSON.stringify(history)
-);
-
-}
-
-function renderHistory(){
-
-const container =
-document.getElementById("historyContainer");
-
-const history =
-JSON.parse(localStorage.getItem("studyHistory")) || [];
-
-if(history.length === 0){
-
-container.innerHTML =
-"<p>No hay historial todavía.</p>";
-
-return;
-
-}
-
-container.innerHTML = history.reverse().map(item => `
-
-<div class="glass-card">
-
-<h3>${item.correct ? "✅" : "❌"} ${item.subject.toUpperCase()}</h3>
-
-<p><strong>Tema:</strong> ${item.topic}</p>
-
-<p><strong>Pregunta:</strong> ${item.question}</p>
-
-<p><strong>Respuesta:</strong> ${item.answer}</p>
-
-<p><strong>Fecha:</strong> ${item.time}</p>
-
-</div>
-
-`).join("");
-
-}
