@@ -1,110 +1,299 @@
+let currentQuestion;
 
-// ===============================
-// HISTORIAL PERSISTENTE LOCAL
-// ===============================
-
-let studyHistory =
-JSON.parse(localStorage.getItem("studyHistory")) || [];
-
-// ===============================
-// GUARDAR RESPUESTA
-// ===============================
-
-function saveAnswer(question, userAnswer, correctAnswer, isCorrect){
-
-const item = {
-
-question,
-userAnswer,
-correctAnswer,
-isCorrect,
-date: new Date().toLocaleString()
-
+let stats = JSON.parse(localStorage.getItem("stats")) || {
+correct:0,
+wrong:0,
+xp:0,
+weakTopics:{}
 };
 
-studyHistory.push(item);
+function init(){
+const subjectSelect = document.getElementById("subjectSelect");
+const studySubject = document.getElementById("studySubject");
 
-// GUARDAR EN LOCALSTORAGE
+Object.keys(questionBank).forEach(subject=>{
+
+const option1 = document.createElement("option");
+option1.value = subject;
+option1.textContent = subject;
+subjectSelect.appendChild(option1);
+
+const option2 = document.createElement("option");
+option2.value = subject;
+option2.textContent = subject;
+studySubject.appendChild(option2);
+
+});
+
+loadQuestions();
+loadStudyTopics();
+updateStats();
+}
+
+function hideAll(){
+document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+}
+
+function showPractice(){
+hideAll();
+document.getElementById("practiceScreen").classList.add("active");
+}
+
+function showStudy(){
+hideAll();
+document.getElementById("studyScreen").classList.add("active");
+}
+
+function goHome(){
+hideAll();
+document.getElementById("homeScreen").classList.add("active");
+}
+
+function loadQuestions(){
+
+const subject = document.getElementById("subjectSelect").value || "matematicas";
+
+const questions = questionBank[subject];
+
+currentQuestion = questions[Math.floor(Math.random()*questions.length)];
+
+document.getElementById("questionText").textContent = currentQuestion.question;
+document.getElementById("hintBox").textContent = "";
+document.getElementById("feedback").textContent = "";
+document.getElementById("explanationBox").textContent = "";
+document.getElementById("answerInput").value = "";
+
+const optionsContainer = document.getElementById("optionsContainer");
+
+optionsContainer.innerHTML = "";
+
+if(currentQuestion.options){
+
+currentQuestion.options.forEach(option=>{
+
+const btn = document.createElement("button");
+
+btn.className = "option-btn";
+
+btn.textContent = option;
+
+btn.onclick = ()=>{
+document.getElementById("answerInput").value = option;
+};
+
+optionsContainer.appendChild(btn);
+
+});
+
+}
+
+}
+
+function normalize(text){
+return text.toLowerCase().trim();
+}
+
+function checkAnswer(){
+
+const input = normalize(document.getElementById("answerInput").value);
+
+const correct = currentQuestion.answers.some(a=>normalize(a)===input);
+
+if(correct){
+
+document.getElementById("feedback").textContent = "✅ Correcto";
+
+stats.correct++;
+stats.xp += 20;
+
+}else{
+
+document.getElementById("feedback").textContent = "❌ Incorrecto";
+
+stats.wrong++;
+
+const topic = currentQuestion.topic;
+
+if(!stats.weakTopics[topic]){
+stats.weakTopics[topic] = 0;
+}
+
+stats.weakTopics[topic]++;
+
+}
+
+document.getElementById("explanationBox").textContent = currentQuestion.explanation;
+
+saveHistory(
+currentQuestion,
+document.getElementById("answerInput").value,
+correct
+);
+
+updateStats();
+
+}
+
+function showHint(){
+document.getElementById("hintBox").textContent = currentQuestion.hint;
+}
+
+function nextQuestion(){
+loadQuestions();
+}
+
+function updateStats(){
+
+localStorage.setItem("stats", JSON.stringify(stats));
+
+document.getElementById("correctCount").textContent =
+"Correctas: " + stats.correct;
+
+document.getElementById("wrongCount").textContent =
+"Incorrectas: " + stats.wrong;
+
+document.getElementById("xpDisplay").textContent =
+"XP: " + stats.xp;
+
+const weak = Object.entries(stats.weakTopics).sort((a,b)=>b[1]-a[1])[0];
+
+if(weak){
+
+document.getElementById("weakTopic").textContent =
+"Tema débil: " + weak[0];
+
+}
+
+}
+
+function loadStudyTopics(){
+
+const subject = document.getElementById("studySubject").value || "matematicas";
+
+const topics = Object.keys(studyContent[subject]);
+
+const topicSelect = document.getElementById("studyTopic");
+
+topicSelect.innerHTML = "";
+
+topics.forEach(topic=>{
+
+const option = document.createElement("option");
+
+option.value = topic;
+
+option.textContent = topic;
+
+topicSelect.appendChild(option);
+
+});
+
+renderStudy();
+
+}
+
+function renderStudy(){
+
+const subject = document.getElementById("studySubject").value;
+
+const topic = document.getElementById("studyTopic").value;
+
+const data = studyContent[subject][topic];
+
+document.getElementById("studyContentBox").innerHTML = `
+<h2>${data.title}</h2>
+<p>${data.theory}</p>
+<pre>${data.formula}</pre>
+<pre>${data.example}</pre>
+<ul>
+${data.tips.map(t=>`<li>${t}</li>`).join("")}
+</ul>
+`;
+
+}
+
+document.getElementById("subjectSelect").addEventListener("change", loadQuestions);
+document.getElementById("studySubject").addEventListener("change", loadStudyTopics);
+document.getElementById("studyTopic").addEventListener("change", renderStudy);
+
+init();
+
+const ADMIN_PASSWORD = "EAGLES";
+
+function openAdmin(){
+
+const password = prompt("🔒 Contraseña Admin");
+
+if(password !== ADMIN_PASSWORD){
+
+alert("❌ Contraseña incorrecta");
+return;
+
+}
+
+hideAll();
+document.getElementById("adminScreen").classList.add("active");
+
+renderHistory();
+
+}
+
+function saveHistory(question,userAnswer,isCorrect){
+
+const history =
+JSON.parse(localStorage.getItem("studyHistory")) || [];
+
+history.push({
+
+question:question.question,
+subject:question.subject,
+topic:question.topic,
+answer:userAnswer,
+correct:isCorrect,
+time:new Date().toLocaleString()
+
+});
+
 localStorage.setItem(
 "studyHistory",
-JSON.stringify(studyHistory)
+JSON.stringify(history)
 );
 
 }
 
-// ===============================
-// MOSTRAR HISTORIAL
-// ===============================
-
 function renderHistory(){
 
-const historyContainer =
-document.getElementById("history-list");
+const container =
+document.getElementById("historyContainer");
 
-if(!historyContainer) return;
+const history =
+JSON.parse(localStorage.getItem("studyHistory")) || [];
 
-historyContainer.innerHTML = "";
+if(history.length === 0){
 
-studyHistory.forEach((item, index) => {
+container.innerHTML =
+"<p>No hay historial todavía.</p>";
 
-const div = document.createElement("div");
-
-div.className = "history-item";
-
-div.innerHTML = `
-<h3>📝 Pregunta ${index + 1}</h3>
-
-<p><strong>Pregunta:</strong>
-${item.question}</p>
-
-<p><strong>Respuesta:</strong>
-${item.userAnswer}</p>
-
-<p><strong>Correcta:</strong>
-${item.correctAnswer}</p>
-
-<p><strong>Resultado:</strong>
-${item.isCorrect ? "✅ Correcta" : "❌ Incorrecta"}</p>
-
-<p><strong>Fecha:</strong>
-${item.date}</p>
-
-<hr>
-`;
-
-historyContainer.appendChild(div);
-
-});
+return;
 
 }
 
-// ===============================
-// BORRAR HISTORIAL
-// ===============================
+container.innerHTML = [...history].reverse().map(item => `
 
-function clearHistory(){
+<div class="glass-card">
 
-localStorage.removeItem("studyHistory");
+<h3>${item.correct ? "✅" : "❌"} ${item.subject.toUpperCase()}</h3>
 
-studyHistory = [];
+<p><strong>Tema:</strong> ${item.topic}</p>
 
-renderHistory();
+<p><strong>Pregunta:</strong> ${item.question}</p>
+
+<p><strong>Respuesta:</strong> ${item.answer}</p>
+
+<p><strong>Fecha:</strong> ${item.time}</p>
+
+</div>
+
+`).join("");
 
 }
-
-// ===============================
-// EJEMPLO DE USO
-// ===============================
-
-// saveAnswer(
-// "¿Cuánto es 2+2?",
-// "4",
-// "4",
-// true
-// );
-
-document.addEventListener("DOMContentLoaded", () => {
-
-renderHistory();
-
-});
